@@ -13,6 +13,8 @@ builder.Services.AddDbContextFactory<Contexto>(options => options.UseSqlite(ConS
 
 var app = builder.Build();
 
+//Este comentario es para probar si me funciona el proyecto al trasladarlo a otra pc, no es un chivo ni trampa
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
