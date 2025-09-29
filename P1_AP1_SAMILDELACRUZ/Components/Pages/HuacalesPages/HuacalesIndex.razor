@@ -1,0 +1,133 @@
+﻿@page "/Huacales"
+@rendermode InteractiveServer
+@inject HuacalesServices huacalesServices
+@using System.Linq.Expressions;
+
+<PageTitle>Lista huacales</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header space-between">
+            <h5 class="card-title text-center">Registro de</h5>
+            <a href="/Huacales/create" class="btn btn-primary"> <span class="bi bi-plus-square bi-trask mt-3"></span> Crear</a>
+        </div>
+
+        <div class="card-body">
+
+            @*labels*@
+            <div class="row">
+
+                @*Filtrar por*@
+                <div class="col-3">
+                    <label class="col-form-label"><strong>Filtrar por</strong></label>
+                </div>
+
+                @*ValorFiltro*@
+                <div class="col-4">
+                    <label class="col-form-label"><strong>B&uacute;squeda</strong></label>
+                </div>
+            </div>
+
+            @*Inputs y botones*@
+            <div class="row align-items-center">
+                @*filtro*@
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="Filtro">
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option value="ID">ID</option>
+                        <option value="Nombre Cliente">Nombre</option>
+                    </InputSelect>
+                </div>
+
+                @*Busqueda*@
+                <div class="col-4">
+                    <div class="input-group">
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"> Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover">
+                <thead class="table text-black">
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th colspan="2" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Huacales in ListaHuacales)
+                    {
+                        <tr>
+                            @*Detalle*@
+                            <td> @Huacales.IdEntrada</td>
+                            <td> @Huacales.Fecha</td>
+                            <td> @Huacales.NombreCliente</td>
+                            <td> @Huacales.Cantidad</td>
+                            <td> @Huacales.Precio</td>
+
+                            @*BTN Editar*@
+                            <td class="text-center">
+                                <a href="Registro/edit/@Huacales.IdEntrada" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                            </td>
+
+                            @*BTN Eliminar*@
+                            <td class="text-center">
+                                <button class="btn btn-outline-danger bi bi-trash" @onclick="() => Eliminar(Huacales.IdEntrada)"></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer space-between">
+            <label>Reistros:  @ListaHuacales.Count()</label>
+            <label>| Total: @ListaHuacales.Sum(i => i.Precio).ToString("n2")</label>
+        </div>
+    </div>
+</div>
+
+@code {
+    List<EntradasHuacales> ListaHuacales = new();
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Buscar();
+    }
+
+    public async Task Buscar()
+    {
+        Expression<Func<EntradasHuacales, bool>> query = (H => H.IdEntrada > 0);
+
+        if(Filtro == "ID")
+        {
+            try
+            {
+                int id = Convert.ToInt32(ValorFiltro);
+                query = (H => H.IdEntrada == id);
+            }catch(Exception e)
+            {
+                query = (H => H.IdEntrada > 0);
+            }
+
+        }
+        else if(Filtro == "Nombre")
+        {
+            query = (H => H.NombreCliente.Contains(ValorFiltro));
+        }
+
+        ListaHuacales = await huacalesServices.Listar(query);
+    }
+
+    public async Task Eliminar(int id)
+    {
+        await huacalesServices.Eliminar(id);
+        ListaHuacales = await huacalesServices.Listar(H => H.IdEntrada > 0);
+    }
+}
