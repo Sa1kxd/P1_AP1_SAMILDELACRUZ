@@ -1,6 +1,7 @@
 using P1_AP1_SAMILDELACRUZ.Components;
 using P1_AP1_SAMILDELACRUZ.DAL;
 using Microsoft.EntityFrameworkCore;
+using P1_AP1_SAMILDELACRUZ.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 
 var ConStr = builder.Configuration.GetConnectionString("ConStr");
 builder.Services.AddDbContextFactory<Contexto>(options => options.UseSqlite(ConStr));
+
+builder.Services.AddScoped<HuacalesServices>();
 
 var app = builder.Build();
 
