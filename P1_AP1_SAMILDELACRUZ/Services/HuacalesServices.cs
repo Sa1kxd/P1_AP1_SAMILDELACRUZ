@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace P1_AP1_SAMILDELACRUZ.Services;
 
-public class RegistroServices(IDbContextFactory<Contexto> factory)
+public class HuacalesServices(IDbContextFactory<Contexto> DbFactory)
 {
     public async Task<List<EntradasHuacales>> Listar(Expression<Func<EntradasHuacales, bool>> criterio) 
     {
-        using var context = await factory.CreateDbContextAsync();
+        using var context = await DbFactory.CreateDbContextAsync();
         return await context.Registros.
             Where(criterio).
             AsNoTracking().
