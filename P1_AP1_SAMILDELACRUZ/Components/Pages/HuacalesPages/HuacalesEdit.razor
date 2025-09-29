@@ -1,0 +1,74 @@
+﻿@page "/Huacales/Edit/{id:int}"
+@rendermode InteractiveServer
+@inject HuacalesServices huacalesServices
+@inject NavigationManager navigationManager
+
+<PageTitle>Editar huacales</PageTitle>
+<EditForm Model="huacales" OnValidSubmit="Guardar">
+
+    <div class="container">
+
+        <div class="card shadow-lg">
+
+            <div class="card text-center">
+                <h5 class="card-title"><i class="bi bi-fill-gear"></i></h5>
+            </div>
+
+            <div class="card-body mt-3">
+                <div class="mt-3">
+                    <label class="form-label"><strong>Fecha</strong></label>
+                    <InputDate class="form-control" @bind-Value="huacales.Fecha" />
+                    <ValidationMessage For="@(() => huacales.Fecha)" />
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label"><strong>Nombre</strong></label>
+                    <InputText class="form-control" @bind-Value="huacales.NombreCliente" />
+                    <ValidationMessage For="@(() => huacales.NombreCliente)" />
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label"><strong>Cantidad</strong></label>
+                    <InputNumber class="form-control" @bind-Value="huacales.Cantidad" />
+                    <ValidationMessage For="@(() => huacales.Cantidad)" />
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label"><strong>Precio</strong></label>
+                    <InputNumber class="form-control" @bind-Value="huacales.Precio" />
+                    <ValidationMessage For="@(() => huacales.Precio)" />
+                </div>
+
+
+            </div>
+
+            <div class="card-footer text-center mt-3">
+                <a href="/Huacales" class="btn btn-secondary">
+                    <span class="bi bi-arrow-left">Volver</span>
+                </a>
+                <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter] public int id { get; set; }
+    EntradasHuacales huacales = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        huacales.Fecha = DateTime.Now;
+        huacales =  await huacalesServices.Buscar(id) ?? new();
+    }
+
+    public async Task Guardar()
+    {
+        await huacalesServices.Guardar(huacales);
+        navigationManager.NavigateTo("/Huacales");
+    }
+}
+
