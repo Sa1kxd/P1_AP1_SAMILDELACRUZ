@@ -7,7 +7,7 @@ namespace P1_AP1_SAMILDELACRUZ.Services;
 
 public class RegistroServices(IDbContextFactory<Contexto> factory)
 {
-    public async Task<List<Registro>> Listar(Expression<Func<Registro, bool>> criterio) 
+    public async Task<List<EntradasHuacales>> Listar(Expression<Func<EntradasHuacales, bool>> criterio) 
     {
         using var context = await factory.CreateDbContextAsync();
         return await context.Registros.

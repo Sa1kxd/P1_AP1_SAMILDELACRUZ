@@ -1,7 +1,7 @@
 ﻿namespace P1_AP1_SAMILDELACRUZ.Models;
 using System.ComponentModel.DataAnnotations;
 
-public class Registro
+public class EntradasHuacales
 {
     [Key]
     public int Id { get; set; }
