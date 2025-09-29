@@ -7,7 +7,7 @@ public class EntradasHuacales
     public int IdEntrada { get; set; }
     
     [Required(ErrorMessage = "El campo Nombre es obligatorio.")]
-    public string Nombre { get; set; }
+    public int Cantidad { get; set; }
 
     [Required(ErrorMessage = "Fecha es requerida")]
     public DateTime Fecha { get; set; } = DateTime.Now;
