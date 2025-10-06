@@ -7,6 +7,7 @@ public class EntradasHuacales
     public int IdEntrada { get; set; }
     
     [Required(ErrorMessage = "El campo Nombre es obligatorio.")]
+    [Range(1, int.MaxValue, ErrorMessage = "La cantidad debe ser mayor que 0.")]
     public int Cantidad { get; set; }
 
     [Required(ErrorMessage = "Fecha es requerida")]
@@ -17,6 +18,7 @@ public class EntradasHuacales
     public String NombreCliente { get; set; }
 
     [Required(ErrorMessage ="Precion requerido")]
+    [Range(1, double.MaxValue, ErrorMessage = "El precio debe ser mayor que 0.")]
     public double Precio { get; set; }
 
 }
