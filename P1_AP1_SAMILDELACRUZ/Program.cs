@@ -14,6 +14,7 @@ builder.Services.AddDbContextFactory<Contexto>(options => options.UseSqlite(ConS
 
 builder.Services.AddScoped<HuacalesServices>();
 
+//Prueba
 var app = builder.Build();
 
 //Este comentario es para probar si me funciona el proyecto al trasladarlo a otra pc, no es un chivo ni trampa
