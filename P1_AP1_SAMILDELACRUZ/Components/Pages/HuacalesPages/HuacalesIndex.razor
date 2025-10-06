@@ -2,6 +2,8 @@
 @rendermode InteractiveServer
 @inject HuacalesServices huacalesServices
 @using System.Linq.Expressions;
+@inject IJSRuntime JS
+
 
 <PageTitle>Lista huacales</PageTitle>
 <div class="container">
@@ -80,7 +82,7 @@
 
                             @*BTN Eliminar*@
                             <td class="text-center">
-                                <button class="btn btn-outline-danger bi bi-trash" @onclick="() => Eliminar(Huacales.IdEntrada)"></button>
+                                <button class="btn btn-outline-danger bi bi-trash" @onclick="() => ConfirmarEliminar(Huacales.IdEntrada)"></button>
                             </td>
                         </tr>
                     }
@@ -135,6 +137,16 @@
 
         ListaHuacales = await huacalesServices.Listar(query);
     }
+
+    public async Task ConfirmarEliminar(int id)
+    {
+        bool confirmado = await JS.InvokeAsync<bool>("confirm", "¿Estás seguro de que quieres eliminar este registro?");
+        if (confirmado)
+        {
+            await Eliminar(id);
+        }
+    }
+
 
     public async Task Eliminar(int id)
     {
