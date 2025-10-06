@@ -84,9 +84,15 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-footer space-between">
-            <label>Reistros:  @ListaHuacales.Count()</label>
+
+        @{
+            var totalCantidad = ListaHuacales.Sum(h => h.Cantidad);
+        }
+
+        <div class="card-footer space-between" style="font-weight: bold;">
+            <label>Total Cantidad: @totalCantidad</label>
         </div>
+
     </div>
 </div>
 
@@ -94,6 +100,7 @@
     List<EntradasHuacales> ListaHuacales = new();
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -104,20 +111,21 @@
     {
         Expression<Func<EntradasHuacales, bool>> query = (H => H.IdEntrada > 0);
 
-        if(Filtro == "ID")
+        if (Filtro == "ID")
         {
             try
             {
                 int id = Convert.ToInt32(ValorFiltro);
                 query = (H => H.IdEntrada == id);
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 query = (H => H.IdEntrada > 0);
             }
 
         }
-        else if(Filtro == "Nombre")
+        else if (Filtro == "Nombre")
         {
             query = (H => H.NombreCliente.Contains(ValorFiltro));
         }
