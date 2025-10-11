@@ -15,6 +15,8 @@ builder.Services.AddDbContextFactory<Contexto>(options => options.UseSqlite(ConS
 builder.Services.AddScoped<HuacalesServices>();
 builder.Services.AddScoped<TiposHuacalesService>();
 
+
+
 //Prueba
 var app = builder.Build();
 

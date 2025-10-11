@@ -199,6 +199,12 @@
 
     public async Task Guardar()
     {
+        if (!huacales.EntradaHuacalDetalle.Any())
+        {
+            await JS.InvokeVoidAsync("alert", "⚠️ Debe agregar al menos un detalle.");
+            return;
+        }
+
         await huacalesServices.Guardar(huacales);
         await JS.InvokeVoidAsync("alert", "✅ Registro guardado exitosamente.");
         navigationManager.NavigateTo("/Huacales");

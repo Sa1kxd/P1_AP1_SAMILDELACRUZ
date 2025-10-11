@@ -12,6 +12,20 @@ public class Contexto : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<EntradasHuacales>()
+    .HasMany(e => e.EntradaHuacalDetalle)
+    .WithOne(d => d.EntradaHuacal)
+    .HasForeignKey(d => d.IdEntrada)
+    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TiposHuacales>()
+    .HasMany(t => t.EntradaHuacalDetalle)
+    .WithOne(d => d.TipoHuacal)
+    .HasForeignKey(d => d.TipoId)
+    .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<TiposHuacales>().HasData(
             new List<TiposHuacales>
             {
@@ -30,6 +44,6 @@ public class Contexto : DbContext
 
             }
         );
-        base.OnModelCreating(modelBuilder);
+
     }
 }
