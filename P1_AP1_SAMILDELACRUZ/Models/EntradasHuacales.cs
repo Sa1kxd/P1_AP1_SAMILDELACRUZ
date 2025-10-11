@@ -1,5 +1,6 @@
 ﻿namespace P1_AP1_SAMILDELACRUZ.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class EntradasHuacales
 {
@@ -20,6 +21,17 @@ public class EntradasHuacales
     [Required(ErrorMessage ="Precion requerido")]
     [Range(1, double.MaxValue, ErrorMessage = "El precio debe ser mayor que 0.")]
     public double Precio { get; set; }
+
+    [ForeignKey("IdEntrada")]
+    [InverseProperty("EntradaHuacalDetalle")]
+    public virtual EntradasHuacales EntradaHuacal { get; set; }
+
+
+
+    [ForeignKey("TipoId")]
+    [InverseProperty("EntradaHuacalDetalle")]
+    public virtual TiposHuacales TipoHuacal { get; set; }
+}
 
 }
 
