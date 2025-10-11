@@ -180,13 +180,12 @@
         RecalcularTotales();
     }
 
-
     private void RecalcularTotales()
     {
         huacales.Cantidad = huacales.EntradaHuacalDetalle.Sum(d => d.Cantidad);
-        huacales.Precio = 0;
+        double importeTotal = huacales.EntradaHuacalDetalle.Sum(d => d.Cantidad * d.Precio);
+        huacales.Precio = huacales.Cantidad > 0 ? importeTotal / huacales.Cantidad : 0;
     }
-
 
     public async Task ConfirmarGuardar()
     {
