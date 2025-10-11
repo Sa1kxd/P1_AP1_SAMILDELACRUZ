@@ -12,9 +12,8 @@ public class TiposHuacalesService(IDbContextFactory<Contexto> DbFactory)
         await using var contexto = await DbFactory.CreateDbContextAsync();
         return await contexto.TiposHuacales
             .AsNoTracking()
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(t => t.TipoId == tipoId);
     }
-
     public async Task<List<TiposHuacales>> Listar(Expression<Func<TiposHuacales, bool>> criterio)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
